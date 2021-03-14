@@ -366,11 +366,5 @@ To prevent a certain file or directory from being linted, add it to `.eslintigno
 
 To maintain a consistent coding style across different IDEs, the project contains `.editorconfig`
 
-## Contributing
 
-Contributions are more than welcome! Please check out the [contributing guide](CONTRIBUTING.md).
-
-## License
-
-[MIT](LICENSE)
 
