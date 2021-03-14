@@ -5,8 +5,8 @@ A project for Chat Application using Node.js, Express, Mongoose, REST API, React
 
 ## Installation
 
- - Directions for installation and other information related to backend in README of `/backend`.
- - Directions for installation and other information related to frontend in README of `/frontend`.
+ - Directions for installation and other information related to backend in [README](./backend/README.md) of `/backend`.
+ - Directions for installation and other information related to frontend in [README](./frontend/README.md) of `/frontend`.
 
 
 ## Screenshots
