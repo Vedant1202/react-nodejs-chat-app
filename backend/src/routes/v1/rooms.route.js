@@ -6,14 +6,12 @@ const roomController = require('../../controllers/room.controller');
 
 const router = express.Router();
 
-router
-  .route('/')
-  .post(auth('createRooms'), validate(roomValidation.createRoom), roomController.createRoom)
+router.route('/').post(auth('createRooms'), validate(roomValidation.createRoom), roomController.createRoom);
 
 router
   .route('/getRooms/:userId')
   .get(auth('getRooms'), validate(roomValidation.getRoomsByUserId), roomController.getRoomsByUserId);
-  
+
 router
   .route('/manage/:roomId')
   .get(auth('getRooms'), validate(roomValidation.getRoom), roomController.getRoom)

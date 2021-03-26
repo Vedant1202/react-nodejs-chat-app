@@ -42,13 +42,13 @@ const getRoomById = async (id) => {
  * @returns {Promise<Room>}
  */
 const getRoomsByUserId = async (userId) => {
-  return Room.find({ 
+  return Room.find({
     $or: [
       {
         createdBy: userId,
       },
       {
-        userlist: { "$in" : [ userId ] },
+        userlist: { $in: [userId] },
       },
     ],
   });
