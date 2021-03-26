@@ -39,31 +39,31 @@ class ChatPage extends Component {
 
         const requestOptions = {
             method: 'GET',
-            headers: { 'Authorization': `Bearer ${currentUser.tokens.access.token}` },
+            headers: { Authorization: `Bearer ${currentUser.tokens.access.token}` },
         };
 
         fetch(apiUrl + '/users', requestOptions)
-        .then(async response => {
-            const data = await response.json();
+            .then(async response => {
+                const data = await response.json();
 
-            if (!response.ok) {
-                const error = (data && data.message) || response.status;
-                return Promise.reject(error);
-            }
+                if (!response.ok) {
+                    const error = (data && data.message) || response.status;
+                    return Promise.reject(error);
+                }
 
-            socket = io(socketUrl, { query: `chatID=${currentUser.user.id}&token=${currentUser.tokens.access.token}` });
-            
-            const userTo = data.results[0].id;
-            
-            this.setState({
-                users: data.results,
-                userTo,
+                socket = io(socketUrl, { query: `chatID=${currentUser.user.id}&token=${currentUser.tokens.access.token}` });
+
+                const userTo = data.results[0].id;
+
+                this.setState({
+                    users: data.results,
+                    userTo,
+                });
+            })
+            .catch(error => {
+                this.setState({ errorMessage: error.toString() });
+                alert('Error: ' + error + '. Please try refreshing or logging in again.');
             });
-        })
-        .catch(error => {
-            this.setState({ errorMessage: error.toString() });
-            alert('Error: ' + error + '. Please try refreshing or logging in again.');
-        });
     };
 
     handleChange = event => {
@@ -78,49 +78,52 @@ class ChatPage extends Component {
         });
     };
 
-    handleChatSwitch = (userId) => {
+    handleChatSwitch = userId => {
         const { currentUser } = this.props;
 
         const requestOptions = {
             method: 'GET',
-            headers: { 'Authorization': `Bearer ${currentUser.tokens.access.token}` },
+            headers: { Authorization: `Bearer ${currentUser.tokens.access.token}` },
         };
-        
+
         fetch(apiUrl + `/messages?userId=${currentUser.user.id}&toId=${userId}`, requestOptions)
-        .then(async response => {
-            const data = await response.json();
+            .then(async response => {
+                const data = await response.json();
 
-            // check for error response
-            if (!response.ok) {
-                // get error message from body or default to response status
-                const error = (data && data.message) || response.status;
-                return Promise.reject(error);
-            }
+                // check for error response
+                if (!response.ok) {
+                    // get error message from body or default to response status
+                    const error = (data && data.message) || response.status;
+                    return Promise.reject(error);
+                }
 
-            const messages = data && data.length ? data : [];
+                const messages = data && data.length ? data : [];
 
-            this.setState({
-                messages,
-                userTo: userId,
-            }, () => {
-                console.log(this.state);
-                const { messages, userTo } = this.state
-                socket.on('receive_message', (message) => {
-                    if (message.senderChatID === userTo) {
-                        messages.push(message);
-        
-                        this.setState({
-                            messages
+                this.setState(
+                    {
+                        messages,
+                        userTo: userId,
+                    },
+                    () => {
+                        console.log(this.state);
+                        const { messages, userTo } = this.state;
+                        socket.on('receive_message', message => {
+                            if (message.senderChatID === userTo) {
+                                messages.push(message);
+
+                                this.setState({
+                                    messages,
+                                });
+                            }
                         });
                     }
-                });
+                );
+            })
+            .catch(error => {
+                this.setState({ errorMessage: error.toString() });
+                alert('Error: ' + error);
             });
-        })
-        .catch(error => {
-            this.setState({ errorMessage: error.toString() });
-            alert('Error: ' + error);
-        });
-    }
+    };
 
     handleSubmit = () => {
         const { currentMessage, userTo, messages } = this.state;
@@ -135,36 +138,36 @@ class ChatPage extends Component {
 
         const requestOptions = {
             method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json', 
-                'Authorization': `Bearer ${currentUser.tokens.access.token}` 
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentUser.tokens.access.token}`,
             },
             body: JSON.stringify(message),
         };
-        
+
         fetch(apiUrl + '/messages', requestOptions)
-        .then(async response => {
-            const data = await response.json();
+            .then(async response => {
+                const data = await response.json();
 
-            // check for error response
-            if (!response.ok) {
-                // get error message from body or default to response status
-                const error = (data && data.message) || response.status;
-                return Promise.reject(error);
-            }
+                // check for error response
+                if (!response.ok) {
+                    // get error message from body or default to response status
+                    const error = (data && data.message) || response.status;
+                    return Promise.reject(error);
+                }
 
-            messages.push(message);
-            this.setState({
-                messages,
-                currentMessage: '',
+                messages.push(message);
+                this.setState({
+                    messages,
+                    currentMessage: '',
+                });
+                socket.emit('send_message', message);
+            })
+            .catch(error => {
+                this.setState({ errorMessage: error.toString() });
+                alert('Error: ' + error);
             });
-            socket.emit('send_message', message);
-        })
-        .catch(error => {
-            this.setState({ errorMessage: error.toString() });
-            alert('Error: ' + error);
-        });
-    }
+    };
 
     render() {
         const { currentMessage, messages, users } = this.state;
@@ -180,8 +183,16 @@ class ChatPage extends Component {
                         title='Chat App'
                         subTitle={currentUser.user.name}
                         extra={[
-                            <Button 
-                                key="1"
+                            <Button
+                                key='1'
+                                onClick={() => {
+                                    history.push('/annotation-rooms');
+                                }}
+                            >
+                                Annotations
+                            </Button>,
+                            <Button
+                                key='2'
                                 onClick={() => {
                                     localStorage.removeItem('persist:gsoc-challenge-chat-app');
                                     window.location.reload();
@@ -198,56 +209,61 @@ class ChatPage extends Component {
                 </div>
                 <Layout className='messages-layout'>
                     <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                    <div className="logo" />
-                    <Menu theme="dark" mode="inline" className="users-list" defaultSelectedKeys={null}>
-                        {
-                            users.map((user, i) => (
+                        <div className='logo' />
+                        <Menu theme='dark' mode='inline' className='users-list' defaultSelectedKeys={null}>
+                            {users.map((user, i) =>
                                 user.id !== currentUser.user.id ? (
-                                    <Menu.Item key={i} onClick={() => { this.handleChatSwitch(user.id); }} icon={<UserOutlined />}>
+                                    <Menu.Item
+                                        key={i}
+                                        onClick={() => {
+                                            this.handleChatSwitch(user.id);
+                                        }}
+                                        icon={<UserOutlined />}
+                                    >
                                         {user.name}
                                     </Menu.Item>
-                                ) : 
-                                (
-                                    null
-                                )
-                            ))
-                        }
-                    </Menu>
-                    </Sider>
-                    <Layout className="site-layout">
-                    <Header className="site-layout-background" style={{ padding: 0 }}>
-                        {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                        className: 'trigger',
-                        onClick: this.toggle,
-                        })}
-                    </Header>
-                    <Content
-                        className="site-layout-background"
-                        style={{
-                        margin: '24px 16px',
-                        padding: 24,
-                        minHeight: 280,
-                        }}
-                    >
-                        <List
-                            className="messages-div"
-                            itemLayout='horizontal'
-                            dataSource={data}
-                            renderItem={item => (
-                                <List.Item className={item.senderChatID === currentUser.user.id ? 'message-ours' : 'message-other'}>
-                                    <List.Item.Meta
-                                        title={
-                                            <>
-                                                {' '}
-                                                {item.from} <UserOutlined />{' '}
-                                            </>
-                                        }
-                                        description={item.text}
-                                    />
-                                </List.Item>
+                                ) : null
                             )}
-                        />
-                    </Content>
+                        </Menu>
+                    </Sider>
+                    <Layout className='site-layout'>
+                        <Header className='site-layout-background' style={{ padding: 0 }}>
+                            {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                                className: 'trigger',
+                                onClick: this.toggle,
+                            })}
+                        </Header>
+                        <Content
+                            className='site-layout-background'
+                            style={{
+                                margin: '24px 16px',
+                                padding: 24,
+                                minHeight: 280,
+                            }}
+                        >
+                            <List
+                                className='messages-div'
+                                itemLayout='horizontal'
+                                dataSource={data}
+                                renderItem={item => (
+                                    <List.Item
+                                        className={
+                                            item.senderChatID === currentUser.user.id ? 'message-ours' : 'message-other'
+                                        }
+                                    >
+                                        <List.Item.Meta
+                                            title={
+                                                <>
+                                                    {' '}
+                                                    {item.from} <UserOutlined />{' '}
+                                                </>
+                                            }
+                                            description={item.text}
+                                        />
+                                    </List.Item>
+                                )}
+                            />
+                        </Content>
                     </Layout>
                 </Layout>
                 <div className='form'>
