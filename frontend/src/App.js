@@ -14,6 +14,8 @@ import { createStructuredSelector } from 'reselect';
 
 import { selectCurrentUser } from './redux/user/user.selector';
 import RegisterPage from './pages/register-page/register-page.component';
+import RoomPage from './pages/room/room.pages';
+import DragDropPage from './pages/dragdrop/dragdrop.pages';
 
 class App extends React.Component {
     render() {
@@ -25,6 +27,16 @@ class App extends React.Component {
                     exact
                     path='/'
                     render={() => (currentUser ? <Redirect to='/chat'></Redirect> : <LoginPage />)}
+                ></Route>
+                <Route
+                    exact
+                    path='/annotation-rooms'
+                    render={() => (currentUser ? <RoomPage /> : <Redirect to='/'></Redirect>)}
+                ></Route>
+                <Route
+                    exact
+                    path='/dragdrop'
+                    render={() => (currentUser ? <DragDropPage /> : <Redirect to='/'></Redirect>)}
                 ></Route>
                 <Route
                     exact
