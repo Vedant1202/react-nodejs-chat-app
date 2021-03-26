@@ -1,6 +1,5 @@
 {
-    "apiUrl": "http://127.0.0.1:5000/v1",
-    "socketUrl": "http://127.0.0.1:4040/"
+    "apiUrl": "http://localhost:5000/v1",
+    "socketUrl": "http://localhost:4040"
 }
-
 
