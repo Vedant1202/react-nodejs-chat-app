@@ -9,9 +9,6 @@ import { AppstoreOutlined } from '@ant-design/icons';
 
 import { connect } from 'react-redux';
 
-// import { selectCurrentSavedState } from '../../redux/saved-state/saved-state.selector';
-// import { setCurrentSavedState } from '../../redux/saved-state/saved-state.actions';
-
 import { setCurrentUser } from '../../redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from '../../redux/user/user.selector';
