@@ -33,8 +33,8 @@ class RegisterPage extends Component {
         const { name, email, password } = this.state;
 
         const data = {
-            name, 
-            email, 
+            name,
+            email,
             password,
         };
 
@@ -43,26 +43,26 @@ class RegisterPage extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         };
-        
-        fetch(apiUrl + '/auth/register', requestOptions)
-        .then(async response => {
-            const data = await response.json();
 
-            // check for error response
-            if (!response.ok) {
-                // get error message from body or default to response status
-                const error = (data && data.message) || response.status;
-                return Promise.reject(error);
-            }
-            setCurrentUser(data);
-            history.push('/chat');
-        })
-        .catch(error => {
-            this.setState({ errorMessage: error.toString() });
-            alert('Error: ' + error);
-            // console.error('There was an error!', error);
-        });
-    }
+        fetch(apiUrl + '/auth/register', requestOptions)
+            .then(async response => {
+                const data = await response.json();
+
+                // check for error response
+                if (!response.ok) {
+                    // get error message from body or default to response status
+                    const error = (data && data.message) || response.status;
+                    return Promise.reject(error);
+                }
+                setCurrentUser(data);
+                history.push('/chat');
+            })
+            .catch(error => {
+                this.setState({ errorMessage: error.toString() });
+                alert('Error: ' + error);
+                // console.error('There was an error!', error);
+            });
+    };
 
     render() {
         const { name, email, password } = this.state;
@@ -93,23 +93,25 @@ class RegisterPage extends Component {
                         onChange={this.handleChange}
                     />
                     <Input.Password
-                        className="password-input"
-                        size="large"
-                        placeholder="Enter your password"
+                        className='password-input'
+                        size='large'
+                        placeholder='Enter your password'
                         iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                         onChange={this.handleChange}
-                        name="password"
+                        name='password'
                         value={password}
                     />
-                    <Button type="link" className="login-link" onClick={() => { history.push('/'); }} block>
+                    <Button
+                        type='link'
+                        className='login-link'
+                        onClick={() => {
+                            history.push('/');
+                        }}
+                        block
+                    >
                         Login?
                     </Button>
-                    <Button
-                        type='primary'
-                        size='large'
-                        block
-                        onClick={this.handleSubmit}
-                    >
+                    <Button type='primary' size='large' block onClick={this.handleSubmit}>
                         Register
                     </Button>
                 </div>

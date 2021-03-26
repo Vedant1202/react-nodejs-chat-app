@@ -32,34 +32,36 @@ class LoginPage extends Component {
         const { email, password } = this.state;
 
         const data = {
-            email, 
+            email,
             password,
         };
 
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(data),
         };
-        
-        fetch(apiUrl + '/auth/login', requestOptions)
-        .then(async response => {
-            const data = await response.json();
 
-            // check for error response
-            if (!response.ok) {
-                // get error message from body or default to response status
-                const error = (data && data.message) || response.status;
-                return Promise.reject(error);
-            }
-            setCurrentUser(data);
-            history.push('/chat');
-        })
-        .catch(error => {
-            this.setState({ errorMessage: error.toString() });
-            console.error('Error: ', error);
-        });
-    }
+        fetch(apiUrl + '/auth/login', requestOptions)
+            .then(async response => {
+                const data = await response.json();
+
+                // check for error response
+                if (!response.ok) {
+                    // get error message from body or default to response status
+                    const error = (data && data.message) || response.status;
+                    return Promise.reject(error);
+                }
+                setCurrentUser(data);
+                history.push('/chat');
+            })
+            .catch(error => {
+                this.setState({ errorMessage: error.toString() });
+                console.error('Error: ', error);
+            });
+    };
 
     render() {
         const { email, password } = this.state;
@@ -81,23 +83,25 @@ class LoginPage extends Component {
                         onChange={this.handleChange}
                     />
                     <Input.Password
-                        className="password-input"
-                        size="large"
-                        placeholder="Enter your password"
+                        className='password-input'
+                        size='large'
+                        placeholder='Enter your password'
                         iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                         onChange={this.handleChange}
-                        name="password"
+                        name='password'
                         value={password}
                     />
-                    <Button type="link" className="register-link" onClick={() => { history.push('/register'); }} block>
+                    <Button
+                        type='link'
+                        className='register-link'
+                        onClick={() => {
+                            history.push('/register');
+                        }}
+                        block
+                    >
                         Register?
                     </Button>
-                    <Button
-                        type='primary'
-                        size='large'
-                        block
-                        onClick={this.handleSubmit}
-                    >
+                    <Button type='primary' size='large' block onClick={this.handleSubmit}>
                         Login
                     </Button>
                 </div>
