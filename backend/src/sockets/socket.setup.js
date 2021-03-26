@@ -44,9 +44,7 @@ const socketSetup = () => {
 
     socket.on('send_state', async (data) => {
       const { roomName } = data;
-      console.log(data);
       await socket.to(roomName).emit('receive_state', data);
-      console.log('emitted');
     });
   });
 };
