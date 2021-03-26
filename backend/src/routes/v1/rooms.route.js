@@ -16,7 +16,6 @@ router
   .route('/manage/:roomId')
   .get(auth('getRooms'), validate(roomValidation.getRoom), roomController.getRoom)
   .post(auth('manageRooms'), validate(roomValidation.updateRoom), roomController.updateRoom)
-  .delete(auth('createRooms'), validate(roomValidation.deleteRoom), roomController.deleteRoom);
 
 module.exports = router;
 
@@ -33,7 +32,7 @@ module.exports = router;
  *  /rooms:
  *    post:
  *      summary: Create a room
- *      description: All users can create a room.
+ *      description: All admin users can create a room.
  *      tags: [Rooms]
  *      security:
  *        - bearerAuth: []
@@ -44,19 +43,23 @@ module.exports = router;
  *            schema:
  *               type: object
  *               properties:
- *                 text:
+ *                 name:
  *                   type: string
- *                 from:
+ *                 userlist:
+ *                   type: array
+ *                 createdBy:
  *                   type: string
- *                 senderChatID:
- *                   type: string
- *                 receiverChatID:
- *                   type: string
+ *                 placed:
+ *                   type: array
+ *                 counter:
+ *                   type: number
+ *                   default: 0
  *               example:
- *                 text: hello
- *                 from: fake name
- *                 senderChatID: 5rebc534954b54139706d920
- *                 receiverChatID: 5rebc534954b54139706d943
+ *                 name: sample room
+ *                 counter: 0
+ *                 userlist: [5rebc534954b54139706d920, 5rebc534954b54139706d943]
+ *                 placed: []
+ *                 createdBy: 8rebc534954b54139706d948
  *      responses:
  *        "201":
  *          description: Created
@@ -74,9 +77,9 @@ module.exports = router;
 /**
  * @swagger
  * path:
- *  /rooms/{userId}/{toId}:
+ *  /rooms/getRooms/{userId}:
  *    get:
- *      summary: Get rooms from a room.
+ *      summary: Get rooms associated with a user.
  *      description: Logged in users can fetch only their own rooms in their rooms.
  *      tags: [Rooms]
  *      security:
@@ -87,13 +90,7 @@ module.exports = router;
  *          required: true
  *          schema:
  *            type: string
- *          description: User id of 'from'
- *        - in: query
- *          name: toId
- *          required: true
- *          schema:
- *            type: string
- *          description: User id of 'to'
+ *          description: User id of logged in user
  *      responses:
  *        "200":
  *          description: OK
@@ -112,16 +109,42 @@ module.exports = router;
 /**
  * @swagger
  * path:
- *  /rooms/{id}:
- *    patch:
+ *  /rooms/manage/{roomId}:
+ *    get:
+ *      summary: Get room from room id.
+ *      description: Logged in users can fetch only their associated rooms.
+ *      tags: [Rooms]
+ *      security:
+ *        - bearerAuth: []
+ *      parameters:
+ *        - in: query
+ *          name: roomId
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: Room id of room
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                 $ref: '#/components/schemas/Room'
+ *        "401":
+ *          $ref: '#/components/responses/Unauthorized'
+ *        "403":
+ *          $ref: '#/components/responses/Forbidden'
+ *        "404":
+ *          $ref: '#/components/responses/NotFound'
+ *    post:
  *      summary: Update a room
- *      description: Logged in rooms can only update their own rooms. Only admins can update other rooms.
+ *      description: Only users associated with rooms can update them.
  *      tags: [Rooms]
  *      security:
  *        - bearerAuth: []
  *      parameters:
  *        - in: path
- *          name: id
+ *          name: roomId
  *          required: true
  *          schema:
  *            type: string
@@ -133,22 +156,22 @@ module.exports = router;
  *            schema:
  *               type: object
  *               properties:
- *                 id:
+ *                 name:
  *                   type: string
- *                 text:
+ *                 createdBy:
  *                   type: string
- *                 from:
- *                   type: string
- *                 senderChatID:
- *                   type: string
- *                 receiverChatID:
- *                   type: string
+ *                 userlist:
+ *                   type: array
+ *                 placed:
+ *                   type: array
+ *                 counter:
+ *                   type: number
  *               example:
- *                 id: 5ebbc534954b54139706d913
- *                 text: hello
- *                 from: fake name
- *                 senderChatID: 5rebc534954b54139706d920
- *                 receiverChatID: 5rebc534954b54139706d943
+ *                 name: sample name
+ *                 createdBy: 5ebbc534954b54139706d913
+ *                 placed: []
+ *                 userlist: [5rebc534954b54139706d920, 5rebc534954b54139706d943]
+ *                 counter: 0
  *      responses:
  *        "200":
  *          description: OK
@@ -165,26 +188,4 @@ module.exports = router;
  *        "404":
  *          $ref: '#/components/responses/NotFound'
  *
- *    delete:
- *      summary: Delete a room
- *      description: Logged in rooms can delete only their rooms. Only admins can delete other rooms.
- *      tags: [Rooms]
- *      security:
- *        - bearerAuth: []
- *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          schema:
- *            type: string
- *          description: Room id
- *      responses:
- *        "200":
- *          description: No content
- *        "401":
- *          $ref: '#/components/responses/Unauthorized'
- *        "403":
- *          $ref: '#/components/responses/Forbidden'
- *        "404":
- *          $ref: '#/components/responses/NotFound'
  */
