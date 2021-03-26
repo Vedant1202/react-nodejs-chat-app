@@ -10,6 +10,22 @@ A project for Chat Application using Node.js, Express, Mongoose, REST API, React
  - [API Docs](http://35.192.146.160:5000/v1/docs/)
 
 
+## Sample user credentials (for the hosted application)
+1. Admin user:
+    - Username: sample@mail.com
+    - Password: password1
+
+2. Non admin user 1:
+    - Username: sample2@mail.com
+    - Password: password1
+
+3. Non admin user 2:
+    - Username: sample3@mail.com
+    - Password: password1
+
+**Note that admin users are preconfigured. You cant register for an admin account, so try the admin user mentioned above for testing purposes**
+
+
 ## Installation
 
  - Directions for installation and other information related to backend in [README](./backend/README.md) of `/backend`.
