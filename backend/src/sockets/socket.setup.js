@@ -24,6 +24,9 @@ const socketSetup = () => {
     const { chatID } = socket.handshake.query;
     socket.join(chatID);
 
+    const { roomName } = socket.handshake.query;
+    socket.join(roomName);
+
     socket.on('disconnect', () => {
       socket.leave(chatID);
     });
@@ -37,6 +40,13 @@ const socketSetup = () => {
         senderChatID,
         receiverChatID,
       });
+    });
+
+    socket.on('send_state', async (data) => {
+      const { roomName } = data;
+      console.log(data);
+      await socket.to(roomName).emit('receive_state', data);
+      console.log('emitted');
     });
   });
 };
