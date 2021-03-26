@@ -49,6 +49,21 @@ A project for Chat Application using Node.js, Express, Mongoose, REST API, React
 5. Users list collapsed
 ![Users list collapsed](https://github.com/Vedant1202/react-nodejs-chat-app/blob/master/screenshots/chat-list-collapsed.png?raw=true)
 
+6. Annotations rooms page
+![Annotations rooms page](https://github.com/Vedant1202/react-nodejs-chat-app/blob/master/screenshots/annotations-rooms.png?raw=true)
+
+7. Create new annotations room
+![Create new annotations room](https://github.com/Vedant1202/react-nodejs-chat-app/blob/master/screenshots/annotations-rooms-creation.png?raw=true)
+
+8. Drag and Drop page
+![Drag and Drop page](https://github.com/Vedant1202/react-nodejs-chat-app/blob/master/screenshots/dragdrop.png?raw=true)
+
+9. Drag and drop new element
+![Drag and drop new element](https://github.com/Vedant1202/react-nodejs-chat-app/blob/master/screenshots/dragdrop-new.png?raw=true)
+
+10. Drag and drop delete element
+![Drag and drop delete element](https://github.com/Vedant1202/react-nodejs-chat-app/blob/master/screenshots/dragdrop-delete.png?raw=true)
+
 
 ## Flowcharts
 
