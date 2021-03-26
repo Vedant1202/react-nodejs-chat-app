@@ -1,6 +1,8 @@
-# NodeJS, ReactJS, Socket.IO Chat Application
+# NodeJS, ReactJS, Socket.IO Application
 
 A project for Chat Application using Node.js, Express, Mongoose, REST API, ReactJS, and Socket.IO. Has user signup/login, chat windows, user list for chatting with users, seperate chat windows for every user. Currently limited to one-to-one chats.
+
+**Update**: Also features real time annotations on images.
 
 ## Live Demo
 
@@ -30,6 +32,12 @@ A project for Chat Application using Node.js, Express, Mongoose, REST API, React
 
 5. Users list collapsed
 ![Users list collapsed](https://github.com/Vedant1202/react-nodejs-chat-app/blob/master/screenshots/chat-list-collapsed.png?raw=true)
+
+
+## Flowcharts
+
+1. Real time annotations with web sockets
+![Real time annotations with web sockets](https://github.com/Vedant1202/react-nodejs-chat-app/blob/master/flowcharts/GSOC-21-real-time-pathology.png?raw=true)
 
 
 ## Contributing
