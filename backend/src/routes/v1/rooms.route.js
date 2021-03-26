@@ -15,7 +15,7 @@ router
 router
   .route('/manage/:roomId')
   .get(auth('getRooms'), validate(roomValidation.getRoom), roomController.getRoom)
-  .post(auth('manageRooms'), validate(roomValidation.updateRoom), roomController.updateRoom)
+  .post(auth('manageRooms'), validate(roomValidation.updateRoom), roomController.updateRoom);
 
 module.exports = router;
 
