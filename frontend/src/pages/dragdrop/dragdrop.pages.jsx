@@ -9,8 +9,8 @@ import { AppstoreOutlined } from '@ant-design/icons';
 
 import { connect } from 'react-redux';
 
-import { selectCurrentSavedState } from '../../redux/saved-state/saved-state.selector';
-import { setCurrentSavedState } from '../../redux/saved-state/saved-state.actions';
+// import { selectCurrentSavedState } from '../../redux/saved-state/saved-state.selector';
+// import { setCurrentSavedState } from '../../redux/saved-state/saved-state.actions';
 
 import { setCurrentUser } from '../../redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
@@ -421,9 +421,6 @@ class DragDropPage extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setCurrentSavedState: savedState => {
-            dispatch(setCurrentSavedState(savedState));
-        },
         setCurrentUser: user => {
             dispatch(setCurrentUser(user));
         },
@@ -431,7 +428,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = createStructuredSelector({
-    savedState: selectCurrentSavedState,
     currentUser: selectCurrentUser,
 });
 
