@@ -58,6 +58,26 @@ components:
         senderChatID: 5rebc534954b54139706d920
         receiverChatID: 5rebc534954b54139706d943
 
+    Room:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        userlist:
+          type: array
+        placed:
+          type: array
+        createdBy:
+          type: string
+      example:
+        id: 5ebbc534954b54139706d913
+        name: sample rrom
+        userlist: [5rebc534954b54139706d920, 5rebc534954b54139706d943]
+        placed: []
+        createdBy: 8rebc534954b54139706d947
+
     Error:
       type: object
       properties:
