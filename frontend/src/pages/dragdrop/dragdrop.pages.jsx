@@ -281,7 +281,7 @@ class DragDropPage extends Component {
 
     // Handle deletion of elements
     handleDelete = e => {
-        if (parseInt(e.keyCode) === 46) {
+        if (String(e.key) === 'Delete') {
             const { placed, roomName, room, roomId, counter } = this.state;
             const { currentUser } = this.props;
 
