@@ -195,7 +195,7 @@ class ChatPage extends Component {
                                 key='2'
                                 onClick={() => {
                                     localStorage.removeItem('persist:gsoc-challenge-chat-app');
-                                    history.push('/');
+                                    window.location.reload();
                                 }}
                             >
                                 Logout
