@@ -197,7 +197,7 @@ class RoomPage extends Component {
                                           key='3'
                                           onClick={() => {
                                               localStorage.removeItem('persist:gsoc-challenge-chat-app');
-                                              window.location.reload();
+                                              history.push('/');
                                           }}
                                       >
                                           Logout
