@@ -9,6 +9,9 @@ A project for Chat Application using Node.js, Express, Mongoose, REST API, React
  - [Application](http://35.192.146.160/)
  - [API Docs](http://35.192.146.160:5000/v1/docs/)
 
+### Youtube video explaining a demo walkthrough
+
+[Chat app + Image annotations app](https://youtu.be/HM7BmTwUEHs).
 
 ## Sample user credentials (for the hosted application)
 1. Admin user:
