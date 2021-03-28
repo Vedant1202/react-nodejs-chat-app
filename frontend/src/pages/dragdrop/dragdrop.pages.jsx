@@ -56,8 +56,7 @@ class DragDropPage extends Component {
 
         socket = io(socketUrl, { query: `roomName=${roomName}&token=${currentUser.tokens.access.token}` });
         socket.on('receive_state', data => {
-            console.log(data);
-            if (data.userName !== currentUser.user.name) {
+            if (data.userId !== currentUser.user.name) {
                 delete data.userName;
                 delete data.roomName;
                 this.setState({
@@ -91,6 +90,7 @@ class DragDropPage extends Component {
                     placed,
                     room: data,
                     counter: data.counter,
+                    userId: currentUser.user.id,
                 });
             })
             .catch(error => {
@@ -242,24 +242,24 @@ class DragDropPage extends Component {
                     const error = (data && data.message) || response.status;
                     return Promise.reject(error);
                 }
-
-                this.setState(
-                    {
-                        placed,
-                        counter,
-                        toShowModal: false,
-                        modalName: '',
-                    },
-                    () => {
-                        const savedState = this.state;
-                        socket.emit('send_state', savedState);
-                    }
-                );
+                
+                this.setState({
+                    placed,
+                    counter,
+                    toShowModal: false,
+                    modalName: '',
+                }, () => {
+                    const savedState = this.state;
+                    delete savedState.tempEvent;
+                    socket.emit('send_state', savedState);
+                });
             })
             .catch(error => {
                 this.setState({ errorMessage: error.toString() });
-                alert('Error!: ', error);
+                console.error('Error!: ', error);
+
             });
+            return true;
     };
 
     // Handle selecting elements
