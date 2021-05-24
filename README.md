@@ -6,7 +6,13 @@ A project for Chat Application using Node.js, Express, Mongoose, REST API, React
 
 ## Live Demo
 
- - [Application](http://35.192.146.160/)
+## Demo 
+
+- Hosted at [Chat Annotate App](https://chat-annotate-app.netlify.app/)
+- Sample credentials
+    - Email: sample@mail.com
+    - Password: password1
+
  - [API Docs](http://35.192.146.160:5000/v1/docs/)
 
 ### Youtube video explaining a demo walkthrough

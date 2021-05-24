@@ -25,6 +25,7 @@
 /frontend/yarn-error.log*
 
 /frontend/src/config
+/frontend/.netlify/
 
 # BACKEND
 
