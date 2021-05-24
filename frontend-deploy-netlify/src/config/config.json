@@ -1,0 +1,5 @@
+{
+    "apiUrl": "https://react-nodejs-chat-app-backend.herokuapp.com/v1",
+    "socketUrl": "https://react-node-chat-app-sockets.herokuapp.com"
+}
+
